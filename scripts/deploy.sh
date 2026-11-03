@@ -242,7 +242,7 @@ for agent in "${AGENTS[@]}"; do
       fi
     fi
     az acr build --registry "$REGISTRY" --subscription "$SUBSCRIPTION" \
-      --image "$agent:$IMAGE_TAG" --file "agents/$agent/Dockerfile" --platform linux/amd64 .
+      --image "$agent:$IMAGE_TAG" --file Dockerfile --platform linux/amd64 "agents/$agent"
     digest="$(az acr repository show --name "$REGISTRY" --image "$agent:$IMAGE_TAG" \
       --subscription "$SUBSCRIPTION" --query digest -o tsv)"
     [[ "$digest" =~ ^sha256:[a-f0-9]{64}$ ]] || fail "Registry returned an invalid digest"

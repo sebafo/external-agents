@@ -39,13 +39,12 @@ The editable source is [infrastructure-data-flow.drawio](infrastructure-data-flo
 
 | Path | Purpose |
 |------|---------|
-| [agents/maf](agents/maf) | MAF agent and independent uv lockfile |
-| [agents/langchain](agents/langchain) | LangChain agent and independent uv lockfile |
-| [shared](shared) | SDK hosting, settings, and in-memory conversation history |
+| [agents/maf](agents/maf) | Self-contained MAF agent, SDK host, settings, memory, tests, and uv lockfile |
+| [agents/langchain](agents/langchain) | Self-contained LangChain agent, SDK host, settings, memory, tests, and uv lockfile |
 | [infra](infra) | Foundation and application Bicep templates |
 | [scripts/deploy.sh](scripts/deploy.sh) | Staged deployment and Teams/Copilot packaging |
 | [scripts/package_teams.py](scripts/package_teams.py) | Manifest validation and ZIP generation |
-| [teams](teams) | Separate dual-surface app manifest templates |
+| [app-packages](app-packages) | Separate app manifest templates for Teams and Microsoft 365 Copilot |
 | [infrastructure-data-flow.drawio](infrastructure-data-flow.drawio) | Editable infrastructure and data-flow diagram |
 | [infrastructure-data-flow.drawio.png](infrastructure-data-flow.drawio.png) | Diagram image embedded above |
 | [delete-deployment.md](delete-deployment.md) | Safe Teams and Azure decommissioning instructions |
@@ -146,6 +145,11 @@ cp .env.example .env
 
 Edit the local `.env` with a real endpoint and deployment name. Keep
 `APP_ENV=local`.
+
+Each agent owns its hosting, settings, contracts, and conversation-memory code.
+The duplication is intentional: neither agent depends on a shared local package
+or the other agent. Each directory can be copied, installed, and tested independently.
+The root project only provides deployment and app-packaging tooling.
 
 ```bash
 # Run separately; use different ports when running both.
@@ -295,8 +299,9 @@ Keep these identifiers distinct:
 Azure Bot stores the actual messaging endpoint,
 `https://<container-app-fqdn>/api/messages`; it is not directly configured in
 the manifest. Before customer distribution, replace the demo branding and
-developer details in [the manifest templates](teams), and replace the demo
-privacy/terms responses in the [shared host](shared/src/teams_agent_common/host.py).
+developer details in [the manifest templates](app-packages), and replace the demo
+privacy/terms responses in the [MAF host](agents/maf/src/maf_agent/host.py)
+and [LangChain host](agents/langchain/src/langchain_agent/host.py).
 Regenerate the packages after making those changes.
 
 ### Existing images and rollback
@@ -507,7 +512,7 @@ in Teams. If Teams works, investigate Copilot activation, package identity and
 version, tenant policy, and Bot Service routing before changing the model or
 authentication. Compare the arrival logs for one message from each client:
 
-- The shared host logs `Messaging request received` before SDK authentication
+- Each agent's host logs `Messaging request received` before SDK authentication
   and `Messaging request completed` with status and duration afterwards. It
   does not log request bodies, authorization headers, query strings, or
   conversation/user IDs.
@@ -550,8 +555,8 @@ after deploying to verify live model compatibility.
 - Cached replies avoid repeated model/tool calls for recent duplicate activities.
   Delivery is **at least once**, not exactly once: a duplicate request can resend
   the same answer, and retries after restart or cache eviction can call the model again.
-- The SDK's in-memory `TurnState` contains no conversation history; the shared
-  in-memory conversation store is the history source for both frameworks.
+- The SDK's in-memory `TurnState` contains no conversation history; each agent's
+  own in-memory conversation store is its history source.
 - Bicep fixes both minimum and maximum replicas to **1** and uses single-revision
   mode. Do not enable horizontal scaling without introducing shared state.
   Single-revision deployments may temporarily overlap processes; memory and
@@ -595,6 +600,15 @@ Tests include real framework tool loops with mocked model transports, SDK
 authentication/probes, in-memory history/reset/concurrency, packaging shapes, and
 deployment-script dry-run/selection safeguards with a mocked Azure CLI.
 They do not call a live model or tenant.
+
+Host, authentication, and conversation-memory tests live in each agent's own
+test suite. Container builds also use only that agent's directory as their build
+context, with its own `.dockerignore`:
+
+```bash
+docker build -t teams-maf-agent agents/maf
+docker build -t teams-langchain-agent agents/langchain
+```
 
 Packaging tests use a cached copy of the
 [official 1.22 schema](https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.schema.json)

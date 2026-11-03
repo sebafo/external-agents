@@ -2,9 +2,9 @@ from unittest.mock import AsyncMock, MagicMock
 
 from agent_framework import Agent
 from maf_agent.app import MafResponder
+from maf_agent.contracts import ChatMessage
+from maf_agent.settings import Settings
 from openai.types.responses import Response
-from teams_agent_common.contracts import ChatMessage
-from teams_agent_common.settings import Settings
 
 
 async def test_real_framework_constructs_and_maps_history() -> None:

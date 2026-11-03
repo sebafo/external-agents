@@ -25,7 +25,7 @@ def schema() -> dict[str, Any]:
 
 @pytest.fixture
 def manifest() -> dict[str, Any]:
-    template = json.loads((ROOT / "teams/maf/manifest.template.json").read_text())
+    template = json.loads((ROOT / "app-packages/maf/manifest.template.json").read_text())
     return packaging.render(
         template,
         {

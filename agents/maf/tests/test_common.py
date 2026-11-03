@@ -5,12 +5,12 @@ from typing import Any
 from unittest.mock import AsyncMock
 
 import pytest
+from maf_agent.contracts import ChatMessage, get_utc_time
+from maf_agent.host import configure_logging, create_app, handle_message
+from maf_agent.settings import Settings
+from maf_agent.storage import ConversationData, MemoryConversationStore, conversation_key
 from microsoft_agents.activity import Activity, ChannelAccount, ChannelId, ConversationAccount
 from microsoft_agents.hosting.core import TurnContext
-from teams_agent_common.contracts import ChatMessage, get_utc_time
-from teams_agent_common.host import configure_logging, create_app, handle_message
-from teams_agent_common.settings import Settings
-from teams_agent_common.storage import ConversationData, MemoryConversationStore, conversation_key
 
 
 def settings(mode: str = "local") -> Settings:
@@ -209,7 +209,7 @@ async def test_probes_bypass_auth_but_messages_require_auth(aiohttp_client: Any)
 async def test_request_diagnostics_include_auth_rejections_without_sensitive_data(
     aiohttp_client: Any, caplog: pytest.LogCaptureFixture
 ) -> None:
-    caplog.set_level(logging.INFO, logger="teams_agent_common.host")
+    caplog.set_level(logging.INFO, logger="maf_agent.host")
     responder = AsyncMock()
     client = await aiohttp_client(
         create_app(settings("azure"), responder, MemoryConversationStore(), AsyncMock())
@@ -222,9 +222,7 @@ async def test_request_diagnostics_include_auth_rejections_without_sensitive_dat
         headers={"Authorization": "NotBearer private-token"},
     )
     assert response.status == 401
-    messages = [
-        record.getMessage() for record in caplog.records if record.name == "teams_agent_common.host"
-    ]
+    messages = [record.getMessage() for record in caplog.records if record.name == "maf_agent.host"]
     assert len(messages) == 2
     assert "Messaging request received: reference=" in messages[0]
     assert "Messaging request completed: reference=" in messages[1]
@@ -239,9 +237,9 @@ async def test_request_diagnostics_include_auth_rejections_without_sensitive_dat
 async def test_request_diagnostics_preserve_unhandled_failures(
     aiohttp_client: Any, caplog: pytest.LogCaptureFixture, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    caplog.set_level(logging.INFO, logger="teams_agent_common.host")
+    caplog.set_level(logging.INFO, logger="maf_agent.host")
     monkeypatch.setattr(
-        "teams_agent_common.host.start_agent_process",
+        "maf_agent.host.start_agent_process",
         AsyncMock(side_effect=RuntimeError("adapter failure")),
     )
     client = await aiohttp_client(
@@ -250,7 +248,7 @@ async def test_request_diagnostics_preserve_unhandled_failures(
     response = await client.post("/api/messages", json={})
     assert response.status == 500
     assert any(
-        record.name == "teams_agent_common.host" and "status=500" in record.getMessage()
+        record.name == "maf_agent.host" and "status=500" in record.getMessage()
         for record in caplog.records
     )
 
@@ -288,7 +286,7 @@ async def test_local_sdk_activity_roundtrip(
 ) -> None:
     from aiohttp import web
 
-    caplog.set_level(logging.INFO, logger="teams_agent_common.host")
+    caplog.set_level(logging.INFO, logger="maf_agent.host")
     received: list[dict[str, Any]] = []
 
     async def capture(request: web.Request) -> web.Response:
@@ -321,9 +319,7 @@ async def test_local_sdk_activity_roundtrip(
     assert response.status in {200, 201, 202}
     responder.respond.assert_awaited_once()
     assert any(activity.get("text") == "SDK round trip" for activity in received)
-    messages = [
-        record.getMessage() for record in caplog.records if record.name == "teams_agent_common.host"
-    ]
+    messages = [record.getMessage() for record in caplog.records if record.name == "maf_agent.host"]
     assert any(message.startswith("Messaging request received: reference=") for message in messages)
     assert any(
         message.startswith("Messaging request completed:")

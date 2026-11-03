@@ -5,9 +5,10 @@ from azure.identity.aio import get_bearer_token_provider
 from langchain.agents import create_agent
 from langchain_core.messages import AIMessage, HumanMessage
 from langchain_openai import ChatOpenAI
-from teams_agent_common.contracts import INSTRUCTIONS, ChatMessage, get_utc_time
-from teams_agent_common.host import load_settings, run
-from teams_agent_common.settings import Settings
+
+from .contracts import INSTRUCTIONS, ChatMessage, get_utc_time
+from .host import load_settings, run
+from .settings import Settings
 
 
 class LangChainResponder:

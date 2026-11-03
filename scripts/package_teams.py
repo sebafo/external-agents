@@ -118,7 +118,7 @@ def package(
     }
     if substitutions["BOT_ID"] == substitutions["APP_ID"]:
         raise ValueError("Teams app ID must be distinct from bot client ID")
-    template = json.loads((ROOT / "teams" / agent / "manifest.template.json").read_text())
+    template = json.loads((ROOT / "app-packages" / agent / "manifest.template.json").read_text())
     manifest = render(template, substitutions)
     Draft4Validator.check_schema(schema)
     errors = list(Draft4Validator(schema, format_checker=FormatChecker()).iter_errors(manifest))

@@ -1,10 +1,10 @@
 from unittest.mock import AsyncMock, MagicMock
 
 from langchain_agent.app import LangChainResponder
+from langchain_agent.contracts import ChatMessage
+from langchain_agent.settings import Settings
 from langchain_core.messages import AIMessage, HumanMessage
 from openai.types.responses import Response
-from teams_agent_common.contracts import ChatMessage
-from teams_agent_common.settings import Settings
 
 
 async def test_real_framework_constructs_and_maps_history() -> None:

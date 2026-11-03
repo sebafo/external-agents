@@ -189,6 +189,12 @@ def test_apply_builds_and_deploys_both_agents_without_input(
     package_calls = (tmp_path / "uv.log").read_text()
     for agent in ("maf", "langchain"):
         assert f"--image {agent}:test-build" in calls
+        assert any(
+            call.startswith("acr build ")
+            and f"--image {agent}:test-build" in call
+            and call.endswith(f"--file Dockerfile --platform linux/amd64 agents/{agent}")
+            for call in calls.splitlines()
+        )
         assert images[agent] == f"registry.azurecr.io/{agent}@sha256:" + "0" * 64
         assert f"--agent {agent}" in package_calls
 
