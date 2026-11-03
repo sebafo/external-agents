@@ -49,7 +49,6 @@ The editable source is [infrastructure-data-flow.drawio](infrastructure-data-flo
 | [infrastructure-data-flow.drawio](infrastructure-data-flow.drawio) | Editable infrastructure and data-flow diagram |
 | [infrastructure-data-flow.drawio.png](infrastructure-data-flow.drawio.png) | Diagram image embedded above |
 | [delete-deployment.md](delete-deployment.md) | Safe Teams and Azure decommissioning instructions |
-| [extend.md](extend.md) | Copilot extension design, rollout checks, and public-store follow-up |
 
 ## Prerequisites
 
