@@ -1,0 +1,52 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.22/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.22",
+  "version": "$VERSION",
+  "id": "$APP_ID",
+  "developer": {
+    "name": "External Agent Demo",
+    "websiteUrl": "https://$DOMAIN",
+    "privacyUrl": "https://$DOMAIN/privacy",
+    "termsOfUseUrl": "https://$DOMAIN/terms"
+  },
+  "name": { "short": "LangChain Assistant", "full": "LangChain Assistant" },
+  "description": {
+    "short": "A Python LangChain assistant for Teams and Microsoft 365 Copilot.",
+    "full": "Chat in Teams or Microsoft 365 Copilot with an Azure-hosted LangChain assistant. It can answer questions and call a read-only UTC time tool. Microsoft Graph access is not configured."
+  },
+  "icons": { "outline": "outline.png", "color": "color.png" },
+  "accentColor": "#246B47",
+  "bots": [{
+    "botId": "$BOT_ID",
+    "scopes": ["personal", "copilot"],
+    "isNotificationOnly": false,
+    "supportsFiles": false,
+    "commandLists": [{
+      "scopes": ["personal", "copilot"],
+      "commands": [
+        {
+          "title": "What can you help me with?",
+          "description": "Explain the assistant's capabilities and limitations."
+        },
+        {
+          "title": "What is the current UTC time?",
+          "description": "Call the read-only UTC time tool."
+        },
+        {
+          "title": "Can you access my files?",
+          "description": "Explain which data sources are and are not connected."
+        }
+      ]
+    }]
+  }],
+  "copilotAgents": {
+    "customEngineAgents": [{
+      "type": "bot",
+      "id": "$BOT_ID",
+      "disclaimer": {
+        "text": "AI-generated answers may be inaccurate. This demo does not access your Microsoft 365 files. Do not submit sensitive information."
+      }
+    }]
+  },
+  "validDomains": ["$DOMAIN"]
+}

@@ -1,0 +1,35 @@
+[project]
+name = "external-agent-teams-tooling"
+version = "0.1.0"
+requires-python = ">=3.11,<3.12"
+dependencies = ["teams-agent-common", "jsonschema>=4.23,<5"]
+
+[tool.uv.sources]
+teams-agent-common = { path = "shared", editable = true }
+
+[dependency-groups]
+dev = [
+  "pytest>=8.3,<10",
+  "pytest-asyncio>=0.25,<2",
+  "pytest-aiohttp>=1.1,<2",
+  "ruff>=0.11,<1",
+  "pyright>=1.1.400,<2",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "ASYNC"]
+
+[tool.pyright]
+include = ["shared/src", "scripts", "tests"]
+pythonVersion = "3.11"
+typeCheckingMode = "standard"
+venvPath = "."
+venv = ".venv"

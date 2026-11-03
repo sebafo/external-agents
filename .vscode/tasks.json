@@ -1,0 +1,20 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Validate Python",
+      "type": "shell",
+      "command": "uv run --locked ruff check . && uv run --locked pyright && uv run --locked pyright --project agents/maf && uv run --locked pyright --project agents/langchain && uv run --locked pytest tests && uv run --locked --project agents/maf pytest agents/maf/tests && uv run --locked --project agents/langchain pytest agents/langchain/tests",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": []
+    },
+    {
+      "label": "Validate Bicep",
+      "type": "shell",
+      "command": "az bicep build --file infra/foundation.bicep --stdout > /dev/null && az bicep build --file infra/applications.bicep --stdout > /dev/null",
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "group": "build"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "MAF Teams agent (local)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "maf_agent.app",
+      "python": "${workspaceFolder}/agents/maf/.venv/bin/python",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "env": { "APP_ENV": "local", "PORT": "3978" },
+      "justMyCode": true
+    },
+    {
+      "name": "LangChain Teams agent (local)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "langchain_agent.app",
+      "python": "${workspaceFolder}/agents/langchain/.venv/bin/python",
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "env": { "APP_ENV": "local", "PORT": "3979" },
+      "justMyCode": true
+    }
+  ]
+}

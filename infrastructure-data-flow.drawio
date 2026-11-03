@@ -1,0 +1,75 @@
+<mxfile host="app.diagrams.net" modified="2026-10-23T06:58:00.000Z" agent="Copilot" version="25.0.3" type="device">
+  <diagram id="infra-data-flow" name="Infrastructure and Data Flow">
+    <mxGraphModel dx="1600" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1000" math="0" shadow="0" adaptiveColors="auto">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="resourceGroup" value="AZURE SUBSCRIPTION / APPLICATION RESOURCE GROUP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;fillOpacity=18;strokeColor=#d6b656;dashed=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=12;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="110" width="735" height="590" as="geometry"/>
+        </mxCell>
+        <mxCell id="acaEnvironment" value="SHARED AZURE CONTAINER APPS ENVIRONMENT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;fillOpacity=14;strokeColor=#6c8ebf;dashed=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=12;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="565" y="155" width="425" height="385" as="geometry"/>
+        </mxCell>
+        <mxCell id="deliveryFrame" value="BUILD, DEPLOYMENT AND TENANT ROLLOUT" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;fillOpacity=16;strokeColor=#9673a6;dashed=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=12;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="280" y="760" width="735" height="175" as="geometry"/>
+        </mxCell>
+        <mxCell id="clientsFrame" value="MICROSOFT 365" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;fillOpacity=25;strokeColor=#d79b00;dashed=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=12;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="25" y="255" width="220" height="190" as="geometry"/>
+        </mxCell>
+        <mxCell id="modelFrame" value="EXISTING MODEL SERVICE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;fillOpacity=25;strokeColor=#d79b00;dashed=1;verticalAlign=top;align=left;spacingTop=10;spacingLeft=12;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="280" width="350" height="205" as="geometry"/>
+        </mxCell>
+        <mxCell id="title" value="Infrastructure and Data Flow" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;fontColor=#1b1b1b;" vertex="1" parent="1">
+          <mxGeometry x="30" y="35" width="500" height="40" as="geometry"/>
+        </mxCell>
+        <mxCell id="clients" value="Users&lt;br&gt;Teams + Microsoft 365 Copilot&lt;br&gt;personal chat clients" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="315" width="170" height="80" as="geometry"/>
+        </mxCell>
+        <mxCell id="botMaf" value="Azure Bot&lt;br&gt;MAF registration + Teams channel&lt;br&gt;public messaging endpoint" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="315" y="225" width="205" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="botLang" value="Azure Bot&lt;br&gt;LangChain registration + Teams channel&lt;br&gt;public messaging endpoint" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="315" y="405" width="205" height="90" as="geometry"/>
+        </mxCell>
+        <mxCell id="appMaf" value="MAF Container App&lt;br&gt;public HTTPS /api/messages&lt;br&gt;Agents SDK + Microsoft Agent Framework&lt;br&gt;0.5 vCPU / 1 GiB / one replica&lt;br&gt;in-memory conversation history" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="600" y="220" width="355" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="appLang" value="LangChain Container App&lt;br&gt;public HTTPS /api/messages&lt;br&gt;Agents SDK + LangChain&lt;br&gt;0.5 vCPU / 1 GiB / one replica&lt;br&gt;in-memory conversation history" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="600" y="395" width="355" height="115" as="geometry"/>
+        </mxCell>
+        <mxCell id="registry" value="Azure Container Registry&lt;br&gt;images for both agents&lt;br&gt;AcrPull; admin disabled" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="310" y="585" width="205" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="identities" value="Two user-assigned identities&lt;br&gt;one per agent; bot + app auth&lt;br&gt;AcrPull + OpenAI User roles" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="555" y="585" width="220" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="logs" value="Log Analytics workspace&lt;br&gt;ACA console / platform logs&lt;br&gt;30-day retention" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="815" y="585" width="180" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="model" value="Foundry / Azure OpenAI deployment&lt;br&gt;OpenAI v1 Responses API&lt;br&gt;function tools&lt;br&gt;existing; not provisioned here" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="345" width="290" height="100" as="geometry"/>
+        </mxCell>
+        <mxCell id="runner" value="Deployment workstation / runner&lt;br&gt;Azure CLI + Bicep + uv&lt;br&gt;ACR image builds + Azure deployment" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="305" y="805" width="215" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="packages" value="Two Teams app ZIPs&lt;br&gt;manifest + icons only&lt;br&gt;no code or credentials" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="575" y="805" width="190" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="admin" value="Teams / Microsoft 365 administrator&lt;br&gt;approval, publication, availability&lt;br&gt;installation is a separate step" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="815" y="805" width="180" height="85" as="geometry"/>
+        </mxCell>
+        <mxCell id="note" value="No database, Blob Storage, or Key Vault. Each agent has isolated in-process history; restart or deployment resets it." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#999999;fontSize=12;fontColor=#444444;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="795" width="430" height="75" as="geometry"/>
+        </mxCell>
+        <mxCell id="e1" value="activity / reply" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;startFill=1;endArrow=block;endFill=1;strokeColor=#666666;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="clients" target="botMaf"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e2" value="activity / reply" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;startFill=1;endArrow=block;endFill=1;strokeColor=#666666;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="clients" target="botLang"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e3" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;startFill=1;endArrow=block;endFill=1;strokeColor=#666666;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="botMaf" target="appMaf"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e4" value="HTTPS" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;startFill=1;endArrow=block;endFill=1;strokeColor=#666666;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="botLang" target="appLang"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e5" value="Responses API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;startFill=1;endArrow=block;endFill=1;strokeColor=#6c8ebf;strokeWidth=2;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="appMaf" target="model"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e6" value="Responses API" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;startArrow=block;startFill=1;endArrow=block;endFill=1;strokeColor=#6c8ebf;strokeWidth=2;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="appLang" target="model"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e7" value="generate two app ZIPs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="runner" target="packages"><mxGeometry relative="1" as="geometry"/></mxCell>
+        <mxCell id="e8" value="admin-managed rollout" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;endFill=1;strokeColor=#9673a6;fontSize=11;labelBackgroundColor=#ffffff;" edge="1" parent="1" source="packages" target="admin"><mxGeometry relative="1" as="geometry"/></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
